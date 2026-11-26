@@ -15,7 +15,8 @@ Technical repository for the NAVOSYS company website MVP, structured according t
 - **P02 — Strapi CMS & PostgreSQL Foundation:** Implemented (awaiting formal acceptance).
 - **P03 — Design System & Lightweight UI Foundation:** Implemented (awaiting formal acceptance).
 - **P04 — Global Settings, Header, Navigation & Footer:** Implemented (awaiting formal acceptance).
-- Subsequent phases (P05–P19) are not yet started.
+- **P05 — Dynamic Routing, Page Resolver & SEO Foundation:** Implemented (awaiting formal acceptance).
+- Subsequent phases (P06–P19) are not yet started.
 
 ## Repository Structure
 
@@ -23,9 +24,9 @@ Technical repository for the NAVOSYS company website MVP, structured according t
 .
 ├── apps/
 │   └── web/
-│       ├── app/            # Next.js App Router entrypoints (layout wired to Strapi in P04)
-│       ├── components/     # ui (P03), layout (P04), sections/forms/seo (P05+)
-│       ├── lib/            # design tokens (P03), strapi global client (P04), routes/content/seo/validation (P05+)
+│       ├── app/            # Catch-all CMS route [[...slug]], sitemap, robots, preview/revalidate APIs
+│       ├── components/     # ui (P03), layout (P04), seo (P05), sections/forms (P06+)
+│       ├── lib/            # design tokens (P03), strapi/routes/seo (P04–P05), content/validation (P06+)
 │       ├── styles/         # Global Tailwind CSS stylesheet & NAVOSYS theme tokens
 │       ├── tests/          # Vitest + Testing Library suite
 │       └── types/          # TypeScript CMS contracts

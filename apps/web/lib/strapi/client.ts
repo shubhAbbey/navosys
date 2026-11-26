@@ -44,6 +44,7 @@ export interface FetchStrapiOptions {
   revalidate?: number;
   tags?: string[];
   timeoutMs?: number;
+  cache?: RequestCache;
 }
 
 export async function fetchStrapi<T>(
@@ -65,15 +66,24 @@ export async function fetchStrapi<T>(
   }
 
   try {
-    const response = await fetch(url, {
+    const fetchInit: RequestInit & {
+      next?: { revalidate?: number; tags?: string[] };
+    } = {
       method: "GET",
       headers,
       signal: AbortSignal.timeout(options.timeoutMs ?? 4000),
-      next: {
+    };
+
+    if (options.cache === "no-store") {
+      fetchInit.cache = "no-store";
+    } else {
+      fetchInit.next = {
         revalidate: options.revalidate ?? 60,
         ...(options.tags ? { tags: options.tags } : {}),
-      },
-    });
+      };
+    }
+
+    const response = await fetch(url, fetchInit);
 
     if (!response.ok) {
       return null;

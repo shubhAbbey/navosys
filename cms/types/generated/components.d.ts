@@ -93,6 +93,28 @@ export interface SharedLink extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedSeo extends Struct.ComponentSchema {
+  collectionName: 'components_shared_seos';
+  info: {
+    displayName: 'SEO';
+    icon: 'search';
+  };
+  attributes: {
+    canonicalUrl: Schema.Attribute.String;
+    metaDescription: Schema.Attribute.Text;
+    metaTitle: Schema.Attribute.String;
+    noFollow: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    noIndex: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    ogDescription: Schema.Attribute.Text;
+    ogImage: Schema.Attribute.Media<'images'>;
+    ogTitle: Schema.Attribute.String;
+    structuredDataType: Schema.Attribute.Enumeration<
+      ['WebPage', 'AboutPage', 'ContactPage', 'CollectionPage', 'FAQPage']
+    > &
+      Schema.Attribute.DefaultTo<'WebPage'>;
+  };
+}
+
 export interface SharedSocialLink extends Struct.ComponentSchema {
   collectionName: 'components_shared_social_links';
   info: {
@@ -119,6 +141,7 @@ declare module '@strapi/strapi' {
       'shared.announcement': SharedAnnouncement;
       'shared.cta': SharedCta;
       'shared.link': SharedLink;
+      'shared.seo': SharedSeo;
       'shared.social-link': SharedSocialLink;
     }
   }

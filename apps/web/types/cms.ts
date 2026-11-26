@@ -1,5 +1,5 @@
 /**
- * Strapi 5 CMS contracts for P04+ (Global Settings, Navigation, and Media).
+ * Strapi 5 CMS contracts for P04–P05 (Global Settings, Navigation, Media, Pages, Redirects, SEO).
  */
 export type CmsPublishStatus = "draft" | "published";
 
@@ -116,4 +116,81 @@ export interface SiteLayoutData {
   headerNav: CmsNavItem[];
   footerColumns: CmsFooterColumn[];
   source: "cms" | "fallback";
+}
+
+export type CmsStructuredDataType =
+  | "WebPage"
+  | "AboutPage"
+  | "ContactPage"
+  | "CollectionPage"
+  | "FAQPage";
+
+export interface CmsSeo {
+  metaTitle: string | null;
+  metaDescription: string | null;
+  canonicalUrl: string | null;
+  ogTitle: string | null;
+  ogDescription: string | null;
+  ogImage: CmsMedia | null;
+  noIndex: boolean;
+  noFollow: boolean;
+  structuredDataType: CmsStructuredDataType;
+}
+
+export type CmsPageType =
+  | "home"
+  | "standard"
+  | "landing"
+  | "services_overview"
+  | "industries_overview"
+  | "case_studies_overview"
+  | "insights_overview"
+  | "contact"
+  | "legal";
+
+export interface CmsPageParentRef {
+  id?: number;
+  documentId?: string;
+  title: string;
+  slug: string;
+  fullPath: string;
+  parent?: CmsPageParentRef | null;
+}
+
+export interface CmsPage {
+  id?: number;
+  documentId?: string;
+  title: string;
+  slug: string;
+  fullPath: string;
+  pageType: CmsPageType;
+  summary: string | null;
+  body: string | null;
+  parent: CmsPageParentRef | null;
+  showBreadcrumbs: boolean;
+  isIndexable: boolean;
+  seo: CmsSeo | null;
+  updatedAt?: string;
+  publishedAt?: string | null;
+}
+
+export interface CmsRedirect {
+  id?: number;
+  documentId?: string;
+  sourcePath: string;
+  destinationPath: string;
+  permanent: boolean;
+  isActive: boolean;
+  note?: string | null;
+}
+
+export interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
+export interface RouteConflict {
+  fullPath: string;
+  count: number;
+  sources: string[];
 }

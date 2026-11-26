@@ -1,11 +1,15 @@
 import { render, screen } from "@testing-library/react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it, vi } from "vitest";
-import HomePage from "@/app/page";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import CmsCatchAllPage from "@/app/[[...slug]]/page";
 import NotFound from "@/app/not-found";
 import RootLayout, { generateMetadata } from "@/app/layout";
 
-describe("P01–P04 Foundation Shell", () => {
+describe("P01–P05 Foundation Shell", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it("generates metadata cleanly even when CMS is unreachable during isolated tests", async () => {
     vi.stubGlobal(
       "fetch",
@@ -15,12 +19,16 @@ describe("P01–P04 Foundation Shell", () => {
     const meta = await generateMetadata();
     expect(meta.title).toBeTruthy();
     expect(typeof meta.description).toBe("string");
-
-    vi.unstubAllGlobals();
   });
 
-  it("renders HomePage with accessible main landmark, responsive container, and single h1", () => {
-    render(<HomePage />);
+  it("renders root catch-all fallback when CMS is offline with accessible main landmark and h1", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockRejectedValue(new Error("CMS offline in unit test"))
+    );
+
+    const element = await CmsCatchAllPage({ params: Promise.resolve({}) });
+    render(element);
 
     const main = screen.getByRole("main");
     expect(main).toHaveAttribute("id", "main-content");
@@ -59,7 +67,5 @@ describe("P01–P04 Foundation Shell", () => {
     expect(html).toContain("<header");
     expect(html).toContain("<footer");
     expect(html).toContain('data-testid="child"');
-
-    vi.unstubAllGlobals();
   });
 });

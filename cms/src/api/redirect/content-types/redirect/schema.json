@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "redirects",
+  "info": {
+    "singularName": "redirect",
+    "pluralName": "redirects",
+    "displayName": "Redirect",
+    "description": "CMS-managed HTTP route redirects for slug changes and legacy paths"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "sourcePath": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "destinationPath": {
+      "type": "string",
+      "required": true
+    },
+    "permanent": {
+      "type": "boolean",
+      "default": true
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    },
+    "note": {
+      "type": "string"
+    }
+  }
+}
