@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# Next.js
+apps/web/.next/
+apps/web/out/
+apps/web/next-env.d.ts
+
+# Strapi (future P02+)
+cms/.tmp/
+cms/build/
+cms/dist/
+cms/.strapi/
+cms/public/uploads/*
+!cms/public/uploads/.gitkeep
+
+# Environment files (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# Testing & coverage
+coverage/
+apps/web/coverage/
+playwright-report/
+test-results/
+
+# Logs & OS artifacts
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+.DS_Store
+Thumbs.db
+*.tsbuildinfo
