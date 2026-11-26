@@ -5,14 +5,16 @@ Technical repository for the NAVOSYS company website MVP, structured according t
 ## Architecture Overview
 
 - **Frontend (`apps/web`):** Next.js App Router, TypeScript, Tailwind CSS (Server Components by default, minimal client-side JavaScript).
-- **CMS (`cms/`):** Strapi 5 + PostgreSQL (scheduled for **P02**).
-- **Infrastructure (`infrastructure/`):** Docker and deployment configurations (scheduled for later phases).
+- **CMS (`cms/`):** Strapi 5 (`5.64.0`, TypeScript) backed by PostgreSQL 16.
+- **Infrastructure (`infrastructure/`):** Docker Compose for local PostgreSQL (`127.0.0.1:5434` by default) and deployment configs in later phases.
 - **Documentation (`docs/`):** Architecture notes, phase reports, asset plans, and deployment guides.
 
 ## Current Phase Status
 
 - **P01 — Repository, Project Initialization & Git Foundation:** Implemented (awaiting formal acceptance).
-- Subsequent phases (P02–P19) are not yet started.
+- **P02 — Strapi CMS & PostgreSQL Foundation:** Implemented (awaiting formal acceptance).
+- **P03 — Design System & Lightweight UI Foundation:** Implemented (awaiting formal acceptance).
+- Subsequent phases (P04–P19) are not yet started.
 
 ## Repository Structure
 
@@ -21,12 +23,12 @@ Technical repository for the NAVOSYS company website MVP, structured according t
 ├── apps/
 │   └── web/
 │       ├── app/            # Next.js App Router entrypoints
-│       ├── components/     # layout, sections, forms, ui, seo (populated in P03+)
-│       ├── lib/            # strapi, routes, content, seo, validation (populated in P02+)
-│       ├── styles/         # Global Tailwind CSS stylesheet
+│       ├── components/     # ui (P03), layout/sections/forms/seo (P04+)
+│       ├── lib/            # design tokens (P03), strapi/routes/content/seo/validation (P04+)
+│       ├── styles/         # Global Tailwind CSS stylesheet & NAVOSYS theme tokens
 │       ├── tests/          # Vitest + Testing Library suite
-│       └── types/          # TypeScript CMS contracts (populated in P02+)
-├── cms/                    # Reserved for Strapi 5 (P02)
+│       └── types/          # TypeScript CMS contracts (populated in P04+)
+├── cms/                    # Strapi 5 CMS (TypeScript + PostgreSQL)
 ├── docs/
 │   ├── architecture/
 │   ├── assets/
@@ -42,21 +44,24 @@ Technical repository for the NAVOSYS company website MVP, structured according t
 └── package.json
 ```
 
-## Local Setup (P01)
+## Local Setup
 
-1. Install dependencies:
+1. Install web and CMS dependencies:
    ```bash
    npm --prefix apps/web install
+   npm --prefix cms install
    ```
-2. Copy `.env.example` to `.env` (or `apps/web/.env.local`) as needed for local development. Never commit `.env` files or secrets.
-3. Run verification scripts from the repository root:
+2. Copy `.env.example` to `.env` (or `apps/web/.env.local`) and `cms/.env.example` to `cms/.env` with strong local secrets. Never commit `.env` files or secrets.
+3. Start PostgreSQL and Strapi 5:
    ```bash
-   npm run lint
-   npm run typecheck
-   npm run test
-   npm run build
+   npm run db:up
+   npm run cms:dev
    ```
-4. Start the local development server:
+4. Verify the frontend workspace:
+   ```bash
+   npm run verify
+   ```
+5. Start the Next.js development server:
    ```bash
    npm run dev
    ```

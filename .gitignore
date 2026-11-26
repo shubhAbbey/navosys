@@ -8,11 +8,12 @@ apps/web/.next/
 apps/web/out/
 apps/web/next-env.d.ts
 
-# Strapi (future P02+)
+# Strapi (P02+)
 cms/.tmp/
 cms/build/
 cms/dist/
 cms/.strapi/
+cms/.cache/
 cms/public/uploads/*
 !cms/public/uploads/.gitkeep
 
@@ -20,6 +21,7 @@ cms/public/uploads/*
 .env
 .env.*
 !.env.example
+!cms/.env.example
 
 # Testing & coverage
 coverage/

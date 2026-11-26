@@ -10,6 +10,13 @@
     "lint": "npm --prefix apps/web run lint",
     "typecheck": "npm --prefix apps/web run typecheck",
     "test": "npm --prefix apps/web run test",
-    "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
+    "verify": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "cms:dev": "npm --prefix cms run develop",
+    "cms:build": "npm --prefix cms run build",
+    "cms:start": "npm --prefix cms run start",
+    "cms:typecheck": "npm --prefix cms run typecheck",
+    "db:up": "docker compose -f infrastructure/docker/docker-compose.yml up -d --wait",
+    "db:down": "docker compose -f infrastructure/docker/docker-compose.yml down",
+    "db:logs": "docker compose -f infrastructure/docker/docker-compose.yml logs -f postgres"
   }
 }

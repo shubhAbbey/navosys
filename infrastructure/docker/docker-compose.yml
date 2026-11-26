@@ -1,0 +1,27 @@
+name: navosys
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: navosys-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-navosys_cms}
+      POSTGRES_USER: ${DATABASE_USERNAME:-navosys_user}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-navosys_dev_password}
+    ports:
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5434}:5432"
+    volumes:
+      - navosys_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DATABASE_USERNAME:-navosys_user} -d ${DATABASE_NAME:-navosys_cms}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  navosys_postgres_data:

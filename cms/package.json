@@ -1,0 +1,43 @@
+{
+  "name": "cms",
+  "version": "0.1.0",
+  "private": true,
+  "description": "NAVOSYS Strapi 5 CMS",
+  "scripts": {
+    "build": "strapi build",
+    "console": "strapi console",
+    "deploy": "strapi deploy",
+    "dev": "strapi develop",
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "strapi": "strapi",
+    "typecheck": "tsc --noEmit",
+    "upgrade": "npx @strapi/upgrade latest",
+    "upgrade:dry": "npx @strapi/upgrade latest --dry"
+  },
+  "dependencies": {
+    "@strapi/database": "5.64.0",
+    "@strapi/plugin-cloud": "5.64.0",
+    "@strapi/plugin-users-permissions": "5.64.0",
+    "@strapi/strapi": "5.64.0",
+    "pg": "8.20.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.30.3",
+    "styled-components": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=22.0.0 <=26.x.x",
+    "npm": ">=6.0.0"
+  },
+  "strapi": {
+    "uuid": "80c81cf0-0e7c-4f89-bad4-20c2ac925851",
+    "installId": "a5b679d2e9ffaf2c29cf1fd8900b58f0867affc9134c127ac097d75409e6f8e6"
+  }
+}
