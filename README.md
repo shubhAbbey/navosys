@@ -19,7 +19,9 @@ Technical repository for the NAVOSYS company website MVP, structured according t
 - **P06 — CMS Page Builder & Reusable Section Library:** Implemented (awaiting formal acceptance).
 - **P07 — Homepage:** Implemented (awaiting formal acceptance).
 - **P08 — Services Overview:** Implemented (awaiting formal acceptance).
-- Subsequent phases (P09–P19) are not yet started.
+- **P09 — Cloud & IT Solutions:** Implemented (awaiting formal acceptance).
+- **P10 — AI & Intelligent Automation:** Implemented (awaiting formal acceptance).
+- Subsequent phases (P11–P19) are not yet started.
 
 ## Repository Structure
 

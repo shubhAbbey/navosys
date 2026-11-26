@@ -4,7 +4,7 @@ import { getGlobalLayoutData } from "@/lib/strapi/global";
 import { getAllPublishedPages } from "@/lib/strapi/pages";
 import { getAllPublishedServices } from "@/lib/strapi/services";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [layout, pages, services] = await Promise.all([
