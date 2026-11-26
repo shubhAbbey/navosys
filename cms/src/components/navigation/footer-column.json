@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_navigation_footer_columns",
+  "info": {
+    "displayName": "Footer Column",
+    "icon": "layout"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    },
+    "isVisible": {
+      "type": "boolean",
+      "default": true
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.link"
+    }
+  }
+}

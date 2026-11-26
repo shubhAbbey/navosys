@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_navigation_nav_items",
+  "info": {
+    "displayName": "Nav Item",
+    "icon": "list"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    },
+    "isVisible": {
+      "type": "boolean",
+      "default": true
+    },
+    "isExternal": {
+      "type": "boolean",
+      "default": false
+    },
+    "children": {
+      "type": "component",
+      "repeatable": true,
+      "component": "navigation.nav-child-item"
+    }
+  }
+}

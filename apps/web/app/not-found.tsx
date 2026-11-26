@@ -10,12 +10,12 @@ import {
 
 export default function NotFound() {
   return (
-    <main id="main-content" className="min-h-screen bg-canvas text-navy">
+    <main id="main-content" className="bg-canvas text-navy">
       <Section
         surface="ivory"
         spacing="spacious"
         aria-labelledby="not-found-heading"
-        className="flex min-h-screen items-center"
+        className="flex min-h-[65vh] items-center"
       >
         <Container size="narrow">
           <Card surface="sand" className="mx-auto max-w-lg">

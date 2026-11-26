@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_shared_announcements",
+  "info": {
+    "displayName": "Announcement",
+    "icon": "bell"
+  },
+  "options": {},
+  "attributes": {
+    "enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "text": {
+      "type": "string"
+    },
+    "ctaLabel": {
+      "type": "string"
+    },
+    "ctaUrl": {
+      "type": "string"
+    },
+    "dismissible": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

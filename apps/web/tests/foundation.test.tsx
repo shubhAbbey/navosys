@@ -1,14 +1,22 @@
 import { render, screen } from "@testing-library/react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import HomePage from "@/app/page";
 import NotFound from "@/app/not-found";
-import RootLayout, { metadata } from "@/app/layout";
+import RootLayout, { generateMetadata } from "@/app/layout";
 
-describe("P01 Foundation Shell", () => {
-  it("exports non-empty technical metadata", () => {
-    expect(metadata.title).toBe("NAVOSYS — Technical Foundation");
-    expect(typeof metadata.description).toBe("string");
+describe("P01–P04 Foundation Shell", () => {
+  it("generates metadata cleanly even when CMS is unreachable during isolated tests", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockRejectedValue(new Error("CMS offline in unit test"))
+    );
+
+    const meta = await generateMetadata();
+    expect(meta.title).toBeTruthy();
+    expect(typeof meta.description).toBe("string");
+
+    vi.unstubAllGlobals();
   });
 
   it("renders HomePage with accessible main landmark, responsive container, and single h1", () => {
@@ -16,7 +24,7 @@ describe("P01 Foundation Shell", () => {
 
     const main = screen.getByRole("main");
     expect(main).toHaveAttribute("id", "main-content");
-    expect(main).toHaveClass("min-h-screen");
+    expect(main).toHaveClass("bg-canvas", "text-navy");
 
     const heading = screen.getByRole("heading", { level: 1 });
     expect(heading).toHaveTextContent("NAVOSYS Web Workspace Initialized");
@@ -34,16 +42,24 @@ describe("P01 Foundation Shell", () => {
     expect(homeLink).toHaveAttribute("href", "/");
   });
 
-  it("renders RootLayout with lang=en and skip link targeting main content", () => {
-    const html = renderToStaticMarkup(
-      <RootLayout>
-        <div data-testid="child">content</div>
-      </RootLayout>
+  it("renders RootLayout with lang=en, skip link, header, footer, and children", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockRejectedValue(new Error("CMS offline in unit test"))
     );
+
+    const element = await RootLayout({
+      children: <div data-testid="child">content</div>,
+    });
+    const html = renderToStaticMarkup(element);
 
     expect(html).toContain('<html lang="en"');
     expect(html).toContain('href="#main-content"');
     expect(html).toContain("Skip to main content");
+    expect(html).toContain("<header");
+    expect(html).toContain("<footer");
     expect(html).toContain('data-testid="child"');
+
+    vi.unstubAllGlobals();
   });
 });
