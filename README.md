@@ -18,7 +18,8 @@ Technical repository for the NAVOSYS company website MVP, structured according t
 - **P05 — Dynamic Routing, Page Resolver & SEO Foundation:** Implemented (awaiting formal acceptance).
 - **P06 — CMS Page Builder & Reusable Section Library:** Implemented (awaiting formal acceptance).
 - **P07 — Homepage:** Implemented (awaiting formal acceptance).
-- Subsequent phases (P08–P19) are not yet started.
+- **P08 — Services Overview:** Implemented (awaiting formal acceptance).
+- Subsequent phases (P09–P19) are not yet started.
 
 ## Repository Structure
 
@@ -27,8 +28,8 @@ Technical repository for the NAVOSYS company website MVP, structured according t
 ├── apps/
 │   └── web/
 │       ├── app/            # Catch-all CMS route [[...slug]], sitemap, robots, preview/revalidate APIs
-│       ├── components/     # ui (P03), layout (P04), seo (P05), sections (P06), forms (P17)
-│       ├── lib/            # design (P03), strapi/routes/seo (P04–P05), content (P06), validation (P17)
+│       ├── components/     # ui (P03), layout (P04), seo (P05), sections (P06), services (P08), forms (P17)
+│       ├── lib/            # design (P03), strapi/routes/seo (P04–P08), content (P06), validation (P17)
 │       ├── styles/         # Global Tailwind CSS stylesheet & NAVOSYS theme tokens
 │       ├── tests/          # Vitest + Testing Library suite
 │       └── types/          # TypeScript CMS contracts

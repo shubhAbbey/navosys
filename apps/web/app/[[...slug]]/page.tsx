@@ -3,6 +3,7 @@ import { draftMode } from "next/headers";
 import { notFound, permanentRedirect, redirect } from "next/navigation";
 import { SectionRenderer } from "@/components/sections";
 import { Breadcrumbs, StructuredData } from "@/components/seo";
+import { ServiceDetailView, ServicesCatalog } from "@/components/services";
 import {
   Alert,
   Badge,
@@ -18,6 +19,7 @@ import {
 } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbs,
+  detectRouteConflicts,
   isSafeInternalPath,
   pathToSlugArray,
   slugArrayToPath,
@@ -28,6 +30,10 @@ import {
   getPublishedPageByPath,
   getRedirectByPath,
 } from "@/lib/strapi/pages";
+import {
+  getAllPublishedServices,
+  getPublishedServiceByPath,
+} from "@/lib/strapi/services";
 
 export const revalidate = 60;
 
@@ -47,9 +53,25 @@ async function isDraftPreviewEnabled(): Promise<boolean> {
 export async function generateStaticParams(): Promise<
   Array<{ slug?: string[] }>
 > {
-  const pages = await getAllPublishedPages();
-  return pages.map((page) => {
-    const segments = pathToSlugArray(page.fullPath);
+  const [pages, services] = await Promise.all([
+    getAllPublishedPages(),
+    getAllPublishedServices(),
+  ]);
+
+  const combined = [
+    ...pages.map((p) => ({ fullPath: p.fullPath, documentId: p.documentId })),
+    ...services.map((s) => ({ fullPath: s.fullPath, documentId: s.documentId })),
+  ];
+  const conflicts = new Set(
+    detectRouteConflicts(combined).map((conflict) => conflict.fullPath)
+  );
+
+  const uniquePaths = Array.from(
+    new Set(combined.map((item) => item.fullPath))
+  ).filter((fullPath) => !conflicts.has(fullPath));
+
+  return uniquePaths.map((fullPath) => {
+    const segments = pathToSlugArray(fullPath);
     return segments.length === 0 ? {} : { slug: segments };
   });
 }
@@ -66,16 +88,25 @@ export async function generateMetadata({
     getPublishedPageByPath(normalizedPath, { preview }),
   ]);
 
-  if (!pageResult.page) {
-    return {
-      title: layout.global.defaultSeoTitle || "NAVOSYS — Technical Foundation",
-      description:
-        layout.global.defaultSeoDescription ||
-        "NAVOSYS enterprise technology services platform.",
-    };
+  if (pageResult.page) {
+    return buildPageMetadata(pageResult.page, layout.global);
   }
 
-  return buildPageMetadata(pageResult.page, layout.global);
+  if (normalizedPath.startsWith("/services/")) {
+    const service = await getPublishedServiceByPath(normalizedPath, {
+      preview,
+    });
+    if (service) {
+      return buildPageMetadata(service, layout.global);
+    }
+  }
+
+  return {
+    title: layout.global.defaultSeoTitle || "NAVOSYS — Technical Foundation",
+    description:
+      layout.global.defaultSeoDescription ||
+      "NAVOSYS enterprise technology services platform.",
+  };
 }
 
 export default async function CmsCatchAllPage({ params }: CatchAllPageProps) {
@@ -115,6 +146,29 @@ export default async function CmsCatchAllPage({ params }: CatchAllPageProps) {
   }
 
   if (!pageResult.page) {
+    if (normalizedPath.startsWith("/services/")) {
+      const service = await getPublishedServiceByPath(normalizedPath, {
+        preview,
+      });
+      if (service) {
+        const serviceStructuredData = buildPageStructuredData(
+          service,
+          layout.global,
+          [
+            { label: "Home", href: "/" },
+            { label: "Services", href: "/services" },
+            { label: service.title, href: service.fullPath },
+          ]
+        );
+        return (
+          <main id="main-content" className="bg-canvas text-navy">
+            <StructuredData data={serviceStructuredData} />
+            <ServiceDetailView service={service} />
+          </main>
+        );
+      }
+    }
+
     if (normalizedPath === "/" && pageResult.source === "offline") {
       return (
         <main id="main-content" className="bg-canvas text-navy">
@@ -127,15 +181,15 @@ export default async function CmsCatchAllPage({ params }: CatchAllPageProps) {
             <Container size="narrow">
               <Card surface="sand">
                 <Badge variant="gold">
-                  Phase 06 — Section Library Ready
+                  Phase 08 — Dynamic Services Ready
                 </Badge>
                 <Heading as="h1" id="foundation-heading" className="mt-4">
                   NAVOSYS Web Workspace Initialized
                 </Heading>
                 <Text variant="lead" className="mt-4 text-navy-muted">
-                  Catch-all CMS routing, SEO metadata, and the reusable Dynamic
-                  Zone section registry are active. Connect Strapi CMS to render
-                  composed CMS pages.
+                  Catch-all CMS routing, SEO metadata, and dynamic service
+                  discovery are active. Connect Strapi CMS to render published
+                  CMS pages and services.
                 </Text>
               </Card>
             </Container>
@@ -156,11 +210,40 @@ export default async function CmsCatchAllPage({ params }: CatchAllPageProps) {
   );
   const hasSections = Array.isArray(page.sections) && page.sections.length > 0;
 
+  // Services Overview (/services) injects dynamic CMS service catalog between top hero/intro sections and bottom CTA
+  if (page.pageType === "services_overview") {
+    const services = await getAllPublishedServices();
+    const sortedSections = [...(page.sections ?? [])]
+      .filter((section) => section.isVisible !== false)
+      .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+    const topSections = sortedSections.filter((s) => (s.sortOrder ?? 0) < 50);
+    const bottomSections = sortedSections.filter(
+      (s) => (s.sortOrder ?? 0) >= 50
+    );
+
+    return (
+      <main id="main-content" className="bg-canvas text-navy">
+        <StructuredData data={structuredData} />
+        {page.showBreadcrumbs && breadcrumbs.length > 1 ? (
+          <div className="bg-canvas pt-6">
+            <Container size="wide">
+              <Breadcrumbs items={breadcrumbs} />
+            </Container>
+          </div>
+        ) : null}
+        <SectionRenderer sections={topSections} />
+        <ServicesCatalog services={services} />
+        <SectionRenderer sections={bottomSections} />
+      </main>
+    );
+  }
+
   return (
     <main id="main-content" className="bg-canvas text-navy">
       <StructuredData data={structuredData} />
 
-      {preview || (page.showBreadcrumbs && breadcrumbs.length > 1 && hasSections) ? (
+      {preview ||
+      (page.showBreadcrumbs && breadcrumbs.length > 1 && hasSections) ? (
         <div className="bg-canvas pt-6">
           <Container size="wide">
             {preview ? (

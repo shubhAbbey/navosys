@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
-import type { BreadcrumbItem, CmsPage, GlobalSettings } from "@/types/cms";
+import type { BreadcrumbItem, CmsSeo, GlobalSettings } from "@/types/cms";
 import { normalizePath } from "@/lib/routes/normalize";
+
+export interface SeoRecordLike {
+  title: string;
+  fullPath: string;
+  summary: string | null;
+  isIndexable: boolean;
+  seo: CmsSeo | null;
+}
 
 export function getSiteBaseUrl(global?: Partial<GlobalSettings> | null): string {
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
@@ -23,30 +31,30 @@ export function buildCanonicalUrl(
 }
 
 export function buildPageMetadata(
-  page: CmsPage,
+  record: SeoRecordLike,
   global: GlobalSettings
 ): Metadata {
   const title =
-    page.seo?.metaTitle ||
-    `${page.title} | ${global.siteName || "NAVOSYS"}`;
+    record.seo?.metaTitle ||
+    `${record.title} | ${global.siteName || "NAVOSYS"}`;
   const description =
-    page.seo?.metaDescription ||
-    page.summary ||
+    record.seo?.metaDescription ||
+    record.summary ||
     global.defaultSeoDescription ||
     "Enterprise technology services across Cloud, AI, Software Engineering, and Data Analytics.";
 
   const canonical = buildCanonicalUrl(
-    page.fullPath,
+    record.fullPath,
     global,
-    page.seo?.canonicalUrl
+    record.seo?.canonicalUrl
   );
 
-  const ogTitle = page.seo?.ogTitle || title;
-  const ogDescription = page.seo?.ogDescription || description;
-  const ogImageUrl = page.seo?.ogImage?.url;
+  const ogTitle = record.seo?.ogTitle || title;
+  const ogDescription = record.seo?.ogDescription || description;
+  const ogImageUrl = record.seo?.ogImage?.url;
 
-  const allowIndex = page.isIndexable && !page.seo?.noIndex;
-  const allowFollow = !page.seo?.noFollow;
+  const allowIndex = record.isIndexable && !record.seo?.noIndex;
+  const allowFollow = !record.seo?.noFollow;
 
   return {
     title,
@@ -69,13 +77,13 @@ export function buildPageMetadata(
             images: [
               {
                 url: ogImageUrl,
-                ...(page.seo?.ogImage?.width
-                  ? { width: page.seo.ogImage.width }
+                ...(record.seo?.ogImage?.width
+                  ? { width: record.seo.ogImage.width }
                   : {}),
-                ...(page.seo?.ogImage?.height
-                  ? { height: page.seo.ogImage.height }
+                ...(record.seo?.ogImage?.height
+                  ? { height: record.seo.ogImage.height }
                   : {}),
-                alt: page.seo?.ogImage?.alternativeText || page.title,
+                alt: record.seo?.ogImage?.alternativeText || record.title,
               },
             ],
           }
@@ -91,26 +99,26 @@ export function buildPageMetadata(
 }
 
 export function buildPageStructuredData(
-  page: CmsPage,
+  record: SeoRecordLike,
   global: GlobalSettings,
   breadcrumbs: BreadcrumbItem[]
 ): Record<string, unknown> {
   const canonical = buildCanonicalUrl(
-    page.fullPath,
+    record.fullPath,
     global,
-    page.seo?.canonicalUrl
+    record.seo?.canonicalUrl
   );
   const baseUrl = getSiteBaseUrl(global);
 
   const graph: Record<string, unknown>[] = [
     {
-      "@type": page.seo?.structuredDataType || "WebPage",
+      "@type": record.seo?.structuredDataType || "WebPage",
       "@id": canonical,
       url: canonical,
-      name: page.seo?.metaTitle || page.title,
+      name: record.seo?.metaTitle || record.title,
       description:
-        page.seo?.metaDescription ||
-        page.summary ||
+        record.seo?.metaDescription ||
+        record.summary ||
         global.defaultSeoDescription ||
         undefined,
       isPartOf: {

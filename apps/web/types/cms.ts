@@ -1,5 +1,5 @@
 /**
- * Strapi 5 CMS contracts for P04–P06 (Global Settings, Navigation, Media, Pages, Redirects, SEO, and Dynamic Zone Sections).
+ * Strapi 5 CMS contracts for P04–P08 (Global Settings, Navigation, Media, Pages, Redirects, SEO, Sections, and Services).
  */
 export type CmsPublishStatus = "draft" | "published";
 
@@ -480,6 +480,80 @@ export interface CmsPage {
   sections?: CmsPageSection[];
   updatedAt?: string;
   publishedAt?: string | null;
+}
+
+export type ServicePillar =
+  | "cloud-and-it"
+  | "ai-and-automation"
+  | "software-engineering"
+  | "data-and-analytics";
+
+export const SERVICE_PILLAR_META: ReadonlyArray<{
+  key: ServicePillar;
+  label: string;
+  shortLabel: string;
+  description: string;
+}> = [
+  {
+    key: "cloud-and-it",
+    label: "Cloud & IT Solutions",
+    shortLabel: "Cloud & IT",
+    description:
+      "Migration, hybrid cloud, managed IT operations, infrastructure automation, and modernization.",
+  },
+  {
+    key: "ai-and-automation",
+    label: "AI & Intelligent Automation",
+    shortLabel: "AI & Automation",
+    description:
+      "Governed AI agents, workflow orchestration, business automation, and system integration.",
+  },
+  {
+    key: "software-engineering",
+    label: "Software Engineering",
+    shortLabel: "Software",
+    description:
+      "Web platforms, mobile apps, enterprise applications, maintenance, and modernization.",
+  },
+  {
+    key: "data-and-analytics",
+    label: "Data & Analytics",
+    shortLabel: "Data & Analytics",
+    description:
+      "Data engineering pipelines, business intelligence, and operational visualization.",
+  },
+];
+
+export interface CmsServiceSummary {
+  id?: number;
+  documentId?: string;
+  title: string;
+  slug: string;
+  fullPath: string;
+  pillar: ServicePillar;
+  summary: string;
+  featuredImage: CmsMedia | null;
+  featuredImageAlt?: string | null;
+  order: number;
+  isFeatured: boolean;
+  isIndexable: boolean;
+  updatedAt?: string;
+}
+
+export interface CmsService extends CmsServiceSummary {
+  description: string | null;
+  capabilities: CmsFeatureItem[];
+  benefits: CmsFeatureItem[];
+  deliverables: CmsFeatureItem[];
+  processSteps: CmsStepItem[];
+  technologies: CmsFeatureItem[];
+  useCases: CmsFeatureItem[];
+  faqs: CmsFaqItem[];
+  relatedServices: CmsServiceSummary[];
+  primaryCta: CmsCta | null;
+  secondaryCta: CmsCta | null;
+  seo: CmsSeo | null;
+  sections?: CmsPageSection[];
 }
 
 export interface CmsRedirect {

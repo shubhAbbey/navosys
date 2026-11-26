@@ -3,6 +3,7 @@ import { seedGlobalLayout } from './bootstrap/seed-p04';
 import { seedRoutingFoundation } from './bootstrap/seed-p05';
 import { seedSectionBuilderFixture } from './bootstrap/seed-p06';
 import { seedHomepage } from './bootstrap/seed-p07';
+import { seedServicesOverview } from './bootstrap/seed-p08';
 
 export default {
   register(/* { strapi }: { strapi: Core.Strapi } */) {},
@@ -12,5 +13,6 @@ export default {
     await seedRoutingFoundation(strapi);
     await seedSectionBuilderFixture(strapi);
     await seedHomepage(strapi);
+    await seedServicesOverview(strapi);
   },
 };
