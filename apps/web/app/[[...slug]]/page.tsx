@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import { notFound, permanentRedirect, redirect } from "next/navigation";
+import type { ReactNode } from "react";
+import {
+  CaseStudiesCatalog,
+  CaseStudyDetailView,
+} from "@/components/case-studies";
+import { IndustriesCatalog, IndustryDetailView } from "@/components/industries";
 import { SectionRenderer } from "@/components/sections";
 import { Breadcrumbs, StructuredData } from "@/components/seo";
 import { ServiceDetailView, ServicesCatalog } from "@/components/services";
@@ -24,7 +30,15 @@ import {
   pathToSlugArray,
   slugArrayToPath,
 } from "@/lib/routes/normalize";
+import {
+  getAllPublishedCaseStudies,
+  getPublishedCaseStudyByPath,
+} from "@/lib/strapi/case-studies";
 import { getGlobalLayoutData } from "@/lib/strapi/global";
+import {
+  getAllPublishedIndustries,
+  getPublishedIndustryByPath,
+} from "@/lib/strapi/industries";
 import {
   getAllPublishedPages,
   getPublishedPageByPath,
@@ -34,6 +48,7 @@ import {
   getAllPublishedServices,
   getPublishedServiceByPath,
 } from "@/lib/strapi/services";
+import type { BreadcrumbItem, CmsPage } from "@/types/cms";
 
 export const revalidate = 60;
 
@@ -53,14 +68,18 @@ async function isDraftPreviewEnabled(): Promise<boolean> {
 export async function generateStaticParams(): Promise<
   Array<{ slug?: string[] }>
 > {
-  const [pages, services] = await Promise.all([
+  const [pages, services, industries, caseStudies] = await Promise.all([
     getAllPublishedPages(),
     getAllPublishedServices(),
+    getAllPublishedIndustries(),
+    getAllPublishedCaseStudies(),
   ]);
 
   const combined = [
     ...pages.map((p) => ({ fullPath: p.fullPath, documentId: p.documentId })),
     ...services.map((s) => ({ fullPath: s.fullPath, documentId: s.documentId })),
+    ...industries.map((i) => ({ fullPath: i.fullPath, documentId: i.documentId })),
+    ...caseStudies.map((c) => ({ fullPath: c.fullPath, documentId: c.documentId })),
   ];
   const conflicts = new Set(
     detectRouteConflicts(combined).map((conflict) => conflict.fullPath)
@@ -101,12 +120,59 @@ export async function generateMetadata({
     }
   }
 
+  if (normalizedPath.startsWith("/industries/")) {
+    const industry = await getPublishedIndustryByPath(normalizedPath, {
+      preview,
+    });
+    if (industry) {
+      return buildPageMetadata(industry, layout.global);
+    }
+  }
+
+  if (normalizedPath.startsWith("/case-studies/")) {
+    const caseStudy = await getPublishedCaseStudyByPath(normalizedPath, {
+      preview,
+    });
+    if (caseStudy) {
+      return buildPageMetadata(caseStudy, layout.global);
+    }
+  }
+
   return {
     title: layout.global.defaultSeoTitle || "NAVOSYS — Technical Foundation",
     description:
       layout.global.defaultSeoDescription ||
       "NAVOSYS enterprise technology services platform.",
   };
+}
+
+function renderOverviewWithCatalog(
+  page: CmsPage,
+  breadcrumbs: BreadcrumbItem[],
+  structuredData: Record<string, unknown>,
+  catalog: ReactNode
+) {
+  const sortedSections = [...(page.sections ?? [])]
+    .filter((section) => section.isVisible !== false)
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+  const topSections = sortedSections.filter((s) => (s.sortOrder ?? 0) < 50);
+  const bottomSections = sortedSections.filter((s) => (s.sortOrder ?? 0) >= 50);
+
+  return (
+    <main id="main-content" className="bg-canvas text-navy">
+      <StructuredData data={structuredData} />
+      {page.showBreadcrumbs && breadcrumbs.length > 1 ? (
+        <div className="bg-canvas pt-6">
+          <Container size="wide">
+            <Breadcrumbs items={breadcrumbs} />
+          </Container>
+        </div>
+      ) : null}
+      <SectionRenderer sections={topSections} />
+      {catalog}
+      <SectionRenderer sections={bottomSections} />
+    </main>
+  );
 }
 
 export default async function CmsCatchAllPage({ params }: CatchAllPageProps) {
@@ -169,6 +235,52 @@ export default async function CmsCatchAllPage({ params }: CatchAllPageProps) {
       }
     }
 
+    if (normalizedPath.startsWith("/industries/")) {
+      const industry = await getPublishedIndustryByPath(normalizedPath, {
+        preview,
+      });
+      if (industry) {
+        const industryStructuredData = buildPageStructuredData(
+          industry,
+          layout.global,
+          [
+            { label: "Home", href: "/" },
+            { label: "Industries", href: "/industries" },
+            { label: industry.title, href: industry.fullPath },
+          ]
+        );
+        return (
+          <main id="main-content" className="bg-canvas text-navy">
+            <StructuredData data={industryStructuredData} />
+            <IndustryDetailView industry={industry} />
+          </main>
+        );
+      }
+    }
+
+    if (normalizedPath.startsWith("/case-studies/")) {
+      const caseStudy = await getPublishedCaseStudyByPath(normalizedPath, {
+        preview,
+      });
+      if (caseStudy) {
+        const caseStudyStructuredData = buildPageStructuredData(
+          caseStudy,
+          layout.global,
+          [
+            { label: "Home", href: "/" },
+            { label: "Case Studies", href: "/case-studies" },
+            { label: caseStudy.title, href: caseStudy.fullPath },
+          ]
+        );
+        return (
+          <main id="main-content" className="bg-canvas text-navy">
+            <StructuredData data={caseStudyStructuredData} />
+            <CaseStudyDetailView caseStudy={caseStudy} />
+          </main>
+        );
+      }
+    }
+
     if (normalizedPath === "/" && pageResult.source === "offline") {
       return (
         <main id="main-content" className="bg-canvas text-navy">
@@ -210,31 +322,33 @@ export default async function CmsCatchAllPage({ params }: CatchAllPageProps) {
   );
   const hasSections = Array.isArray(page.sections) && page.sections.length > 0;
 
-  // Services Overview (/services) injects dynamic CMS service catalog between top hero/intro sections and bottom CTA
   if (page.pageType === "services_overview") {
     const services = await getAllPublishedServices();
-    const sortedSections = [...(page.sections ?? [])]
-      .filter((section) => section.isVisible !== false)
-      .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
-    const topSections = sortedSections.filter((s) => (s.sortOrder ?? 0) < 50);
-    const bottomSections = sortedSections.filter(
-      (s) => (s.sortOrder ?? 0) >= 50
+    return renderOverviewWithCatalog(
+      page,
+      breadcrumbs,
+      structuredData,
+      <ServicesCatalog services={services} />
     );
+  }
 
-    return (
-      <main id="main-content" className="bg-canvas text-navy">
-        <StructuredData data={structuredData} />
-        {page.showBreadcrumbs && breadcrumbs.length > 1 ? (
-          <div className="bg-canvas pt-6">
-            <Container size="wide">
-              <Breadcrumbs items={breadcrumbs} />
-            </Container>
-          </div>
-        ) : null}
-        <SectionRenderer sections={topSections} />
-        <ServicesCatalog services={services} />
-        <SectionRenderer sections={bottomSections} />
-      </main>
+  if (page.pageType === "industries_overview") {
+    const industries = await getAllPublishedIndustries();
+    return renderOverviewWithCatalog(
+      page,
+      breadcrumbs,
+      structuredData,
+      <IndustriesCatalog industries={industries} />
+    );
+  }
+
+  if (page.pageType === "case_studies_overview") {
+    const caseStudies = await getAllPublishedCaseStudies();
+    return renderOverviewWithCatalog(
+      page,
+      breadcrumbs,
+      structuredData,
+      <CaseStudiesCatalog caseStudies={caseStudies} />
     );
   }
 

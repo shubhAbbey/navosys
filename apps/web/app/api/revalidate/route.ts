@@ -9,6 +9,8 @@ const ALLOWED_TAGS = new Set([
   "pages",
   "redirects",
   "services",
+  "industries",
+  "case-studies",
 ]);
 
 function secretsMatch(provided: string, expected: string): boolean {
@@ -54,7 +56,9 @@ export async function POST(request: Request): Promise<Response> {
         typeof tag === "string" &&
         (ALLOWED_TAGS.has(tag) ||
           tag.startsWith("page:/") ||
-          tag.startsWith("service:/"))
+          tag.startsWith("service:/") ||
+          tag.startsWith("industry:/") ||
+          tag.startsWith("case-study:/"))
       ) {
         revalidateTag(tag);
         revalidatedTags.push(tag);

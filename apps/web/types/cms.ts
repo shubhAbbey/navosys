@@ -566,6 +566,68 @@ export interface CmsRedirect {
   note?: string | null;
 }
 
+export interface CmsIndustrySummary {
+  id?: number;
+  documentId?: string;
+  title: string;
+  slug: string;
+  fullPath: string;
+  summary: string;
+  featuredImage: CmsMedia | null;
+  featuredImageAlt?: string | null;
+  order: number;
+  isFeatured: boolean;
+  isIndexable: boolean;
+  updatedAt?: string;
+}
+
+export interface CmsIndustry extends CmsIndustrySummary {
+  overview: string | null;
+  keyChallenges: CmsFeatureItem[];
+  solutionPatterns: CmsFeatureItem[];
+  useCases: CmsFeatureItem[];
+  complianceConsiderations: CmsFeatureItem[];
+  relatedServices: CmsServiceSummary[];
+  relatedCaseStudies: CmsCaseStudySummary[];
+  primaryCta: CmsCta | null;
+  secondaryCta: CmsCta | null;
+  seo: CmsSeo | null;
+  sections?: CmsPageSection[];
+}
+
+export interface CmsCaseStudySummary {
+  id?: number;
+  documentId?: string;
+  title: string;
+  slug: string;
+  fullPath: string;
+  isConceptual: boolean;
+  categoryLabel: string;
+  engagementType?: string | null;
+  summary: string;
+  featuredImage: CmsMedia | null;
+  featuredImageAlt?: string | null;
+  order: number;
+  isFeatured: boolean;
+  isIndexable: boolean;
+  updatedAt?: string;
+}
+
+export interface CmsCaseStudy extends CmsCaseStudySummary {
+  challenge: string;
+  solution: string;
+  approach: string | null;
+  architectureHighlights: CmsFeatureItem[];
+  outcomes: CmsFeatureItem[];
+  technologies: CmsFeatureItem[];
+  relatedServices: CmsServiceSummary[];
+  relatedIndustries: CmsIndustrySummary[];
+  primaryCta: CmsCta | null;
+  secondaryCta: CmsCta | null;
+  seo: CmsSeo | null;
+  sections?: CmsPageSection[];
+}
+
 export interface BreadcrumbItem {
   label: string;
   href: string;

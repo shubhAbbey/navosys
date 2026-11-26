@@ -480,6 +480,80 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCaseStudyCaseStudy extends Struct.CollectionTypeSchema {
+  collectionName: 'case_studies';
+  info: {
+    description: 'CMS-driven portfolio studies and conceptual reference architectures';
+    displayName: 'Case Study';
+    pluralName: 'case-studies';
+    singularName: 'case-study';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    approach: Schema.Attribute.Text;
+    architectureHighlights: Schema.Attribute.Component<
+      'shared.feature-item',
+      true
+    >;
+    categoryLabel: Schema.Attribute.String & Schema.Attribute.Required;
+    challenge: Schema.Attribute.Text & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    engagementType: Schema.Attribute.String;
+    featuredImage: Schema.Attribute.Media<'images'>;
+    featuredImageAlt: Schema.Attribute.String;
+    fullPath: Schema.Attribute.String & Schema.Attribute.Unique;
+    isConceptual: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<true>;
+    isFeatured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    isIndexable: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::case-study.case-study'
+    > &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    outcomes: Schema.Attribute.Component<'shared.feature-item', true>;
+    primaryCta: Schema.Attribute.Component<'shared.cta', false>;
+    publishedAt: Schema.Attribute.DateTime;
+    relatedIndustries: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::industry.industry'
+    >;
+    relatedServices: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::service.service'
+    >;
+    secondaryCta: Schema.Attribute.Component<'shared.cta', false>;
+    sections: Schema.Attribute.DynamicZone<
+      [
+        'sections.rich-text',
+        'sections.card-grid',
+        'sections.cta-banner',
+        'sections.process-steps',
+        'sections.faq-accordion',
+        'sections.comparison-table',
+        'sections.tabs',
+        'sections.image-text',
+      ]
+    >;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    solution: Schema.Attribute.Text & Schema.Attribute.Required;
+    summary: Schema.Attribute.Text & Schema.Attribute.Required;
+    technologies: Schema.Attribute.Component<'shared.feature-item', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGlobalSettingGlobalSetting extends Struct.SingleTypeSchema {
   collectionName: 'global_settings';
   info: {
@@ -526,6 +600,74 @@ export interface ApiGlobalSettingGlobalSetting extends Struct.SingleTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiIndustryIndustry extends Struct.CollectionTypeSchema {
+  collectionName: 'industries';
+  info: {
+    description: 'CMS-driven industry capability & domain use-case pages';
+    displayName: 'Industry';
+    pluralName: 'industries';
+    singularName: 'industry';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    complianceConsiderations: Schema.Attribute.Component<
+      'shared.feature-item',
+      true
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    featuredImage: Schema.Attribute.Media<'images'>;
+    featuredImageAlt: Schema.Attribute.String;
+    fullPath: Schema.Attribute.String & Schema.Attribute.Unique;
+    isFeatured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    isIndexable: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    keyChallenges: Schema.Attribute.Component<'shared.feature-item', true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::industry.industry'
+    > &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    overview: Schema.Attribute.Text;
+    primaryCta: Schema.Attribute.Component<'shared.cta', false>;
+    publishedAt: Schema.Attribute.DateTime;
+    relatedCaseStudies: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::case-study.case-study'
+    >;
+    relatedServices: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::service.service'
+    >;
+    secondaryCta: Schema.Attribute.Component<'shared.cta', false>;
+    sections: Schema.Attribute.DynamicZone<
+      [
+        'sections.rich-text',
+        'sections.card-grid',
+        'sections.cta-banner',
+        'sections.process-steps',
+        'sections.faq-accordion',
+        'sections.comparison-table',
+        'sections.tabs',
+        'sections.image-text',
+      ]
+    >;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    solutionPatterns: Schema.Attribute.Component<'shared.feature-item', true>;
+    summary: Schema.Attribute.Text & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    useCases: Schema.Attribute.Component<'shared.feature-item', true>;
   };
 }
 
@@ -1279,7 +1421,9 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::case-study.case-study': ApiCaseStudyCaseStudy;
       'api::global-setting.global-setting': ApiGlobalSettingGlobalSetting;
+      'api::industry.industry': ApiIndustryIndustry;
       'api::navigation-menu.navigation-menu': ApiNavigationMenuNavigationMenu;
       'api::page.page': ApiPagePage;
       'api::redirect.redirect': ApiRedirectRedirect;

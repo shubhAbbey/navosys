@@ -21,7 +21,12 @@ Technical repository for the NAVOSYS company website MVP, structured according t
 - **P08 — Services Overview:** Implemented (awaiting formal acceptance).
 - **P09 — Cloud & IT Solutions:** Implemented (awaiting formal acceptance).
 - **P10 — AI & Intelligent Automation:** Implemented (awaiting formal acceptance).
-- Subsequent phases (P11–P19) are not yet started.
+- **P11 — Software Engineering:** Implemented (awaiting formal acceptance).
+- **P12 — Data & Analytics:** Implemented (awaiting formal acceptance).
+- **P13 — About & Our Approach:** Implemented (awaiting formal acceptance).
+- **P14 — Industries & Dynamic Industry Engine:** Implemented (awaiting formal acceptance).
+- **P15 — Case Studies & Portfolio Engine:** Implemented (awaiting formal acceptance).
+- Subsequent phases (P16–P19) are not yet started.
 
 ## Repository Structure
 

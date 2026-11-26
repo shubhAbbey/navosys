@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="255 262 733 360" width="733" height="360">
+  <defs>
+    <linearGradient id="teal" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#7DC2B3"/>
+      <stop offset="1" stop-color="#2F7F70"/>
+    </linearGradient>
+    <linearGradient id="teal2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2F7F70"/>
+      <stop offset="1" stop-color="#5FA898"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F4C57A"/>
+      <stop offset="1" stop-color="#C98A3E"/>
+    </linearGradient>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0D2C48"/>
+      <stop offset="1" stop-color="#072238"/>
+    </linearGradient>
+  </defs>
+    <path fill="url(#teal2)" d="M350,440 C410,370 460,325 515,325 C590,325 645,395 735,455 C690,440 645,425 600,425 C560,425 535,428 520,430 C460,412 400,415 350,440 Z"/>
+  <path fill="url(#navy)" d="M520,430 C600,420 680,450 735,470 C795,492 845,488 905,440 C875,520 825,603 760,606 C700,609 660,560 620,510 C585,467 555,442 520,430 Z"/>
+  <path fill="url(#teal)" d="M265,612 C320,530 400,440 470,440 C493,440 508,448 515,458 C470,472 420,512 382,560 C345,603 305,612 265,612 Z"/>
+  <path fill="url(#gold)" d="M735,440 C780,350 850,290 978,272 C932,330 912,398 872,424 C832,446 782,445 735,440 Z"/>
+</svg>

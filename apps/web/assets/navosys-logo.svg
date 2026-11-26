@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1254 1254" width="1254" height="1254">
+  <defs>
+    <linearGradient id="teal" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#7DC2B3"/>
+      <stop offset="1" stop-color="#2F7F70"/>
+    </linearGradient>
+    <linearGradient id="teal2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2F7F70"/>
+      <stop offset="1" stop-color="#5FA898"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F4C57A"/>
+      <stop offset="1" stop-color="#C98A3E"/>
+    </linearGradient>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0D2C48"/>
+      <stop offset="1" stop-color="#072238"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Badge -->
+  <circle cx="627" cy="627" r="600" fill="#FBF8F3" stroke="#2C6E63" stroke-width="18"/>
+  <circle cx="627" cy="627" r="578" fill="none" stroke="#E2A956" stroke-width="5"/>
+
+  <!-- Mark -->
+  <path fill="url(#teal2)" d="M350,440 C410,370 460,325 515,325 C590,325 645,395 735,455 C690,440 645,425 600,425 C560,425 535,428 520,430 C460,412 400,415 350,440 Z"/>
+  <path fill="url(#navy)" d="M520,430 C600,420 680,450 735,470 C795,492 845,488 905,440 C875,520 825,603 760,606 C700,609 660,560 620,510 C585,467 555,442 520,430 Z"/>
+  <path fill="url(#teal)" d="M265,612 C320,530 400,440 470,440 C493,440 508,448 515,458 C470,472 420,512 382,560 C345,603 305,612 265,612 Z"/>
+  <path fill="url(#gold)" d="M735,440 C780,350 850,290 978,272 C932,330 912,398 872,424 C832,446 782,445 735,440 Z"/>
+
+  <!-- Wordmark -->
+  <text x="627" y="808" text-anchor="middle" font-family="Montserrat, 'Segoe UI', Arial, sans-serif" font-weight="700" font-size="188" letter-spacing="6" fill="#0B2A45">NAVOSYS</text>
+
+  <!-- Tagline -->
+  <line x1="178" y1="878" x2="265" y2="878" stroke="#D9A05A" stroke-width="5" stroke-linecap="round"/>
+  <line x1="988" y1="878" x2="1075" y2="878" stroke="#D9A05A" stroke-width="5" stroke-linecap="round"/>
+  <text x="627" y="895" text-anchor="middle" font-family="'Segoe UI', 'Open Sans', Arial, sans-serif" font-weight="500" font-size="52" fill="#2E7D6E">Build. Automate. Scale.</text>
+</svg>
