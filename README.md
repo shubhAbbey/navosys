@@ -17,7 +17,8 @@ Technical repository for the NAVOSYS company website MVP, structured according t
 - **P04 — Global Settings, Header, Navigation & Footer:** Implemented (awaiting formal acceptance).
 - **P05 — Dynamic Routing, Page Resolver & SEO Foundation:** Implemented (awaiting formal acceptance).
 - **P06 — CMS Page Builder & Reusable Section Library:** Implemented (awaiting formal acceptance).
-- Subsequent phases (P07–P19) are not yet started.
+- **P07 — Homepage:** Implemented (awaiting formal acceptance).
+- Subsequent phases (P08–P19) are not yet started.
 
 ## Repository Structure
 

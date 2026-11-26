@@ -1,30 +1,26 @@
-import fs from 'fs';
-import path from 'path';
 import type { Core } from '@strapi/strapi';
+import { ensureSeedMediaAsset } from './media-helper';
 
-interface BrandAssetSeed {
-  fileName: string;
-  alternativeText: string;
-  caption: string;
-}
-
-const BRAND_ASSETS: readonly BrandAssetSeed[] = [
+const BRAND_ASSETS = [
   {
+    folderSegments: ['seed-assets', 'brand'],
     fileName: 'navosys-logo-light.png',
     alternativeText: 'NAVOSYS logo',
     caption: 'NAVOSYS primary wordmark for light Warm Ivory surfaces',
   },
   {
+    folderSegments: ['seed-assets', 'brand'],
     fileName: 'navosys-logo-dark.png',
     alternativeText: 'NAVOSYS logo',
     caption: 'NAVOSYS inverted wordmark for Deep Navy surfaces',
   },
   {
+    folderSegments: ['seed-assets', 'brand'],
     fileName: 'navosys-favicon.png',
     alternativeText: 'NAVOSYS icon',
     caption: 'NAVOSYS square brand icon for favicon and touch metadata',
   },
-];
+] as const;
 
 const PUBLIC_READ_ACTIONS = [
   'api::global-setting.global-setting.find',
@@ -62,54 +58,6 @@ async function ensurePublicReadPermissions(strapi: Core.Strapi): Promise<void> {
   }
 }
 
-async function ensureBrandAsset(
-  strapi: Core.Strapi,
-  asset: BrandAssetSeed
-): Promise<{ id: number } | null> {
-  const existing = await strapi.db
-    .query('plugin::upload.file')
-    .findOne({ where: { name: asset.fileName } });
-
-  if (existing) {
-    return { id: existing.id as number };
-  }
-
-  const filePath = path.resolve(
-    process.cwd(),
-    'seed-assets',
-    'brand',
-    asset.fileName
-  );
-  if (!fs.existsSync(filePath)) {
-    strapi.log.warn(`[seed-p04] Brand asset missing at ${filePath}`);
-    return null;
-  }
-
-  const stats = fs.statSync(filePath);
-  const uploadService = strapi.plugin('upload').service('upload');
-  const uploaded = await uploadService.upload({
-    data: {
-      fileInfo: {
-        name: asset.fileName,
-        alternativeText: asset.alternativeText,
-        caption: asset.caption,
-      },
-    },
-    files: {
-      filepath: filePath,
-      originalFilename: asset.fileName,
-      mimetype: 'image/png',
-      size: stats.size,
-    },
-  });
-
-  if (Array.isArray(uploaded) && uploaded[0]) {
-    return { id: uploaded[0].id as number };
-  }
-
-  return null;
-}
-
 async function ensureGlobalSetting(strapi: Core.Strapi): Promise<void> {
   const existing = await strapi
     .documents('api::global-setting.global-setting')
@@ -120,7 +68,12 @@ async function ensureGlobalSetting(strapi: Core.Strapi): Promise<void> {
   }
 
   const [logoLight, logoDark, favicon] = await Promise.all(
-    BRAND_ASSETS.map((asset) => ensureBrandAsset(strapi, asset))
+    BRAND_ASSETS.map((asset) => ensureSeedMediaAsset(strapi, {
+      folderSegments: [...asset.folderSegments],
+      fileName: asset.fileName,
+      alternativeText: asset.alternativeText,
+      caption: asset.caption,
+    }))
   );
 
   await strapi.documents('api::global-setting.global-setting').create({
