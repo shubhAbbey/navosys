@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_sections_testimonials",
+  "info": { "displayName": "Testimonials (Verified Only)", "icon": "quote" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "items": { "type": "component", "repeatable": true, "component": "shared.testimonial-item" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "sand" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_sections_team_grids",
+  "info": { "displayName": "Team Grid (Approved Only)", "icon": "user" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "intro": { "type": "text" },
+    "members": { "type": "component", "repeatable": true, "component": "shared.team-member" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "ivory" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

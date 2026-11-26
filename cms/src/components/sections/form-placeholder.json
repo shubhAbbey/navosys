@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_sections_form_placeholders",
+  "info": { "displayName": "Form Section Hook", "icon": "envelope" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "intro": { "type": "text" },
+    "formKind": {
+      "type": "enumeration",
+      "enum": ["contact", "quote", "consultation", "assessment", "newsletter"],
+      "default": "quote"
+    },
+    "targetRoute": { "type": "string", "default": "/contact/get-quote" },
+    "ctaLabel": { "type": "string", "default": "Get a Quote" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "sand" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

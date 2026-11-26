@@ -1,9 +1,21 @@
 import type { Metadata } from "next";
 import { draftMode } from "next/headers";
 import { notFound, permanentRedirect, redirect } from "next/navigation";
+import { SectionRenderer } from "@/components/sections";
 import { Breadcrumbs, StructuredData } from "@/components/seo";
-import { Alert, Badge, Card, Container, Heading, Section, Text } from "@/components/ui";
-import { buildPageMetadata, buildPageStructuredData } from "@/lib/seo/metadata";
+import {
+  Alert,
+  Badge,
+  Card,
+  Container,
+  Heading,
+  Section,
+  Text,
+} from "@/components/ui";
+import {
+  buildPageMetadata,
+  buildPageStructuredData,
+} from "@/lib/seo/metadata";
 import {
   buildBreadcrumbs,
   isSafeInternalPath,
@@ -32,7 +44,9 @@ async function isDraftPreviewEnabled(): Promise<boolean> {
   }
 }
 
-export async function generateStaticParams(): Promise<Array<{ slug?: string[] }>> {
+export async function generateStaticParams(): Promise<
+  Array<{ slug?: string[] }>
+> {
   const pages = await getAllPublishedPages();
   return pages.map((page) => {
     const segments = pathToSlugArray(page.fullPath);
@@ -112,14 +126,16 @@ export default async function CmsCatchAllPage({ params }: CatchAllPageProps) {
           >
             <Container size="narrow">
               <Card surface="sand">
-                <Badge variant="gold">Phase 05 — Dynamic Routing Ready</Badge>
+                <Badge variant="gold">
+                  Phase 06 — Section Library Ready
+                </Badge>
                 <Heading as="h1" id="foundation-heading" className="mt-4">
                   NAVOSYS Web Workspace Initialized
                 </Heading>
                 <Text variant="lead" className="mt-4 text-navy-muted">
-                  Catch-all CMS routing, SEO metadata, redirects, and sitemap
-                  generation are active. Connect Strapi CMS to render published
-                  CMS pages.
+                  Catch-all CMS routing, SEO metadata, and the reusable Dynamic
+                  Zone section registry are active. Connect Strapi CMS to render
+                  composed CMS pages.
                 </Text>
               </Card>
             </Container>
@@ -138,47 +154,66 @@ export default async function CmsCatchAllPage({ params }: CatchAllPageProps) {
     layout.global,
     breadcrumbs
   );
+  const hasSections = Array.isArray(page.sections) && page.sections.length > 0;
 
   return (
     <main id="main-content" className="bg-canvas text-navy">
       <StructuredData data={structuredData} />
-      <Section
-        surface="ivory"
-        spacing="default"
-        aria-labelledby="page-heading"
-        className="min-h-[65vh]"
-      >
-        <Container size="default">
-          {preview ? (
-            <Alert variant="warning" title="Preview mode active" className="mb-6">
-              Viewing CMS content in preview mode.{" "}
-              <a
-                href={`/api/preview?exit=true&path=${encodeURIComponent(normalizedPath)}`}
-                className="font-semibold underline underline-offset-4"
+
+      {preview || (page.showBreadcrumbs && breadcrumbs.length > 1 && hasSections) ? (
+        <div className="bg-canvas pt-6">
+          <Container size="wide">
+            {preview ? (
+              <Alert
+                variant="warning"
+                title="Preview mode active"
+                className="mb-4"
               >
-                Exit preview
-              </a>
-            </Alert>
-          ) : null}
-
-          {page.showBreadcrumbs ? <Breadcrumbs items={breadcrumbs} /> : null}
-
-          <Card surface="sand">
-            <Badge variant="neutral">{page.pageType}</Badge>
-            <Heading as="h1" id="page-heading" className="mt-4">
-              {page.title}
-            </Heading>
-            {page.summary ? (
-              <Text variant="lead" className="mt-4 text-navy-muted">
-                {page.summary}
-              </Text>
+                Viewing CMS content in preview mode.{" "}
+                <a
+                  href={`/api/preview?exit=true&path=${encodeURIComponent(normalizedPath)}`}
+                  className="font-semibold underline underline-offset-4"
+                >
+                  Exit preview
+                </a>
+              </Alert>
             ) : null}
-            {page.body ? (
-              <Text className="mt-4 text-navy">{page.body}</Text>
+            {page.showBreadcrumbs && breadcrumbs.length > 1 && hasSections ? (
+              <Breadcrumbs items={breadcrumbs} />
             ) : null}
-          </Card>
-        </Container>
-      </Section>
+          </Container>
+        </div>
+      ) : null}
+
+      {hasSections ? (
+        <SectionRenderer sections={page.sections} />
+      ) : (
+        <Section
+          surface="ivory"
+          spacing="default"
+          aria-labelledby="page-heading"
+          className="min-h-[65vh]"
+        >
+          <Container size="default">
+            {page.showBreadcrumbs ? <Breadcrumbs items={breadcrumbs} /> : null}
+
+            <Card surface="sand">
+              <Badge variant="neutral">{page.pageType}</Badge>
+              <Heading as="h1" id="page-heading" className="mt-4">
+                {page.title}
+              </Heading>
+              {page.summary ? (
+                <Text variant="lead" className="mt-4 text-navy-muted">
+                  {page.summary}
+                </Text>
+              ) : null}
+              {page.body ? (
+                <Text className="mt-4 text-navy">{page.body}</Text>
+              ) : null}
+            </Card>
+          </Container>
+        </Section>
+      )}
     </main>
   );
 }

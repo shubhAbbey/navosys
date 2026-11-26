@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_sections_tabs",
+  "info": { "displayName": "Tabs", "icon": "apps" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "intro": { "type": "text" },
+    "tabs": { "type": "component", "repeatable": true, "component": "shared.tab-item" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "sand" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

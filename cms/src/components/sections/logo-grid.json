@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_sections_logo_grids",
+  "info": { "displayName": "Approved Logo Grid", "icon": "star" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string" },
+    "items": { "type": "component", "repeatable": true, "component": "shared.logo-item" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "ivory" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "compact" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_shared_logo_items",
+  "info": {
+    "displayName": "Logo Item",
+    "icon": "star"
+  },
+  "options": {},
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "altText": { "type": "string" },
+    "url": { "type": "string" },
+    "isApproved": { "type": "boolean", "default": false, "required": true },
+    "order": { "type": "integer", "default": 0 }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sections_process_steps",
+  "info": { "displayName": "Process & Timeline", "icon": "bulletList" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "intro": { "type": "text" },
+    "layout": { "type": "enumeration", "enum": ["steps", "timeline"], "default": "steps" },
+    "steps": { "type": "component", "repeatable": true, "component": "shared.step-item" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "ivory" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

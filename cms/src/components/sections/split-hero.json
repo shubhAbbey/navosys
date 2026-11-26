@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_sections_split_heroes",
+  "info": { "displayName": "Split Hero", "icon": "layout" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "subheading": { "type": "text" },
+    "highlights": { "type": "text" },
+    "mediaPosition": { "type": "enumeration", "enum": ["left", "right"], "default": "right" },
+    "primaryCta": { "type": "component", "repeatable": false, "component": "shared.cta" },
+    "secondaryCta": { "type": "component", "repeatable": false, "component": "shared.cta" },
+    "media": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "mediaAlt": { "type": "string" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "ivory" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

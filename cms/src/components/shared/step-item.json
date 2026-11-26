@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_shared_step_items",
+  "info": {
+    "displayName": "Step Item",
+    "icon": "layer"
+  },
+  "options": {},
+  "attributes": {
+    "stepNumber": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" },
+    "deliverable": { "type": "string" },
+    "order": { "type": "integer", "default": 0 }
+  }
+}

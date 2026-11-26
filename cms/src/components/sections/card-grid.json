@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_sections_card_grids",
+  "info": { "displayName": "Card Grid", "icon": "grid" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "intro": { "type": "text" },
+    "gridKind": {
+      "type": "enumeration",
+      "enum": [
+        "features",
+        "services",
+        "industries",
+        "insights",
+        "case_studies",
+        "technologies",
+        "related_services",
+        "related_articles"
+      ],
+      "default": "features"
+    },
+    "columns": { "type": "enumeration", "enum": ["2", "3", "4"], "default": "3" },
+    "items": { "type": "component", "repeatable": true, "component": "shared.feature-item" },
+    "cta": { "type": "component", "repeatable": false, "component": "shared.cta" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "ivory" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

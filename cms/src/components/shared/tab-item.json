@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_shared_tab_items",
+  "info": {
+    "displayName": "Tab Item",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "label": { "type": "string", "required": true },
+    "title": { "type": "string", "required": true },
+    "content": { "type": "text", "required": true },
+    "highlights": { "type": "text" },
+    "ctaLabel": { "type": "string" },
+    "ctaUrl": { "type": "string" },
+    "order": { "type": "integer", "default": 0 }
+  }
+}

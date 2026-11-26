@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sections_image_galleries",
+  "info": { "displayName": "Image Gallery", "icon": "picture" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "intro": { "type": "text" },
+    "columns": { "type": "enumeration", "enum": ["2", "3"], "default": "3" },
+    "items": { "type": "component", "repeatable": true, "component": "shared.gallery-item" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "ivory" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

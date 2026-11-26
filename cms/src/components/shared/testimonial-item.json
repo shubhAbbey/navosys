@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_shared_testimonial_items",
+  "info": {
+    "displayName": "Testimonial Item",
+    "icon": "quote"
+  },
+  "options": {},
+  "attributes": {
+    "quote": { "type": "text", "required": true },
+    "authorName": { "type": "string" },
+    "authorRole": { "type": "string" },
+    "organization": { "type": "string" },
+    "isVerified": { "type": "boolean", "default": false, "required": true },
+    "order": { "type": "integer", "default": 0 }
+  }
+}

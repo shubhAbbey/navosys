@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_sections_heroes",
+  "info": { "displayName": "Hero", "icon": "landscape" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "subheading": { "type": "text" },
+    "alignment": { "type": "enumeration", "enum": ["left", "center"], "default": "left" },
+    "primaryCta": { "type": "component", "repeatable": false, "component": "shared.cta" },
+    "secondaryCta": { "type": "component", "repeatable": false, "component": "shared.cta" },
+    "media": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "mediaAlt": { "type": "string" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "ivory" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "spacious" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

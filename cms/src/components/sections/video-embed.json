@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_sections_video_embeds",
+  "info": { "displayName": "Video Embed", "icon": "play" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "caption": { "type": "string" },
+    "embedUrl": { "type": "string" },
+    "videoFile": { "type": "media", "multiple": false, "allowedTypes": ["videos"] },
+    "posterImage": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "ivory" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

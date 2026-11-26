@@ -1,5 +1,5 @@
 /**
- * Strapi 5 CMS contracts for P04–P05 (Global Settings, Navigation, Media, Pages, Redirects, SEO).
+ * Strapi 5 CMS contracts for P04–P06 (Global Settings, Navigation, Media, Pages, Redirects, SEO, and Dynamic Zone Sections).
  */
 export type CmsPublishStatus = "draft" | "published";
 
@@ -157,6 +157,313 @@ export interface CmsPageParentRef {
   parent?: CmsPageParentRef | null;
 }
 
+export type CmsSectionSurface = "ivory" | "sand" | "navy";
+export type CmsSectionSpacing = "compact" | "default" | "spacious";
+
+export interface CmsSectionBase {
+  id?: number;
+  __component: string;
+  anchorId?: string | null;
+  surface?: CmsSectionSurface;
+  spacing?: CmsSectionSpacing;
+  isVisible?: boolean;
+  sortOrder?: number;
+}
+
+export interface CmsFeatureItem {
+  id?: number;
+  eyebrow?: string | null;
+  title: string;
+  description?: string | null;
+  badge?: string | null;
+  href?: string | null;
+  ctaLabel?: string | null;
+  order?: number;
+}
+
+export interface CmsStepItem {
+  id?: number;
+  stepNumber?: string | null;
+  title: string;
+  description?: string | null;
+  deliverable?: string | null;
+  order?: number;
+}
+
+export interface CmsFaqItem {
+  id?: number;
+  question: string;
+  answer: string;
+  order?: number;
+}
+
+export interface CmsStatItem {
+  id?: number;
+  value: string;
+  label: string;
+  context?: string | null;
+  isVerified: boolean;
+  sourceNote?: string | null;
+  order?: number;
+}
+
+export interface CmsTabItem {
+  id?: number;
+  label: string;
+  title: string;
+  content: string;
+  highlights?: string | null;
+  ctaLabel?: string | null;
+  ctaUrl?: string | null;
+  order?: number;
+}
+
+export interface CmsGalleryItem {
+  id?: number;
+  image?: CmsMedia | null;
+  altOverride?: string | null;
+  caption?: string | null;
+  order?: number;
+}
+
+export interface CmsComparisonRow {
+  id?: number;
+  feature: string;
+  primaryValue: string;
+  secondaryValue: string;
+  highlight?: boolean;
+  order?: number;
+}
+
+export interface CmsTestimonialItem {
+  id?: number;
+  quote: string;
+  authorName?: string | null;
+  authorRole?: string | null;
+  organization?: string | null;
+  isVerified: boolean;
+  order?: number;
+}
+
+export interface CmsLogoItem {
+  id?: number;
+  name: string;
+  logo?: CmsMedia | null;
+  altText?: string | null;
+  url?: string | null;
+  isApproved: boolean;
+  order?: number;
+}
+
+export interface CmsTeamMember {
+  id?: number;
+  name: string;
+  role: string;
+  bio?: string | null;
+  photo?: CmsMedia | null;
+  isApproved: boolean;
+  order?: number;
+}
+
+export interface HeroSectionData extends CmsSectionBase {
+  __component: "sections.hero";
+  eyebrow?: string | null;
+  heading: string;
+  subheading?: string | null;
+  alignment?: "left" | "center";
+  primaryCta?: CmsCta | null;
+  secondaryCta?: CmsCta | null;
+  media?: CmsMedia | null;
+  mediaAlt?: string | null;
+}
+
+export interface SplitHeroSectionData extends CmsSectionBase {
+  __component: "sections.split-hero";
+  eyebrow?: string | null;
+  heading: string;
+  subheading?: string | null;
+  highlights?: string | null;
+  mediaPosition?: "left" | "right";
+  primaryCta?: CmsCta | null;
+  secondaryCta?: CmsCta | null;
+  media?: CmsMedia | null;
+  mediaAlt?: string | null;
+}
+
+export interface ImageTextSectionData extends CmsSectionBase {
+  __component: "sections.image-text";
+  eyebrow?: string | null;
+  heading: string;
+  body: string;
+  media?: CmsMedia | null;
+  mediaAlt?: string | null;
+  mediaPosition?: "left" | "right";
+  cta?: CmsCta | null;
+}
+
+export interface RichTextSectionData extends CmsSectionBase {
+  __component: "sections.rich-text";
+  eyebrow?: string | null;
+  heading?: string | null;
+  content: string;
+  maxWidth?: "narrow" | "default";
+}
+
+export type CmsGridKind =
+  | "features"
+  | "services"
+  | "industries"
+  | "insights"
+  | "case_studies"
+  | "technologies"
+  | "related_services"
+  | "related_articles";
+
+export interface CardGridSectionData extends CmsSectionBase {
+  __component: "sections.card-grid";
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  gridKind?: CmsGridKind;
+  columns?: "2" | "3" | "4";
+  items?: CmsFeatureItem[];
+  cta?: CmsCta | null;
+}
+
+export interface StatsSectionData extends CmsSectionBase {
+  __component: "sections.stats";
+  eyebrow?: string | null;
+  heading?: string | null;
+  intro?: string | null;
+  items?: CmsStatItem[];
+}
+
+export interface CtaBannerSectionData extends CmsSectionBase {
+  __component: "sections.cta-banner";
+  eyebrow?: string | null;
+  heading: string;
+  body?: string | null;
+  variant?: "banner" | "footer_cta";
+  primaryCta?: CmsCta | null;
+  secondaryCta?: CmsCta | null;
+}
+
+export interface ProcessStepsSectionData extends CmsSectionBase {
+  __component: "sections.process-steps";
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  layout?: "steps" | "timeline";
+  steps?: CmsStepItem[];
+}
+
+export interface FaqAccordionSectionData extends CmsSectionBase {
+  __component: "sections.faq-accordion";
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  allowMultiple?: boolean;
+  items?: CmsFaqItem[];
+}
+
+export interface TabsSectionData extends CmsSectionBase {
+  __component: "sections.tabs";
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  tabs?: CmsTabItem[];
+}
+
+export interface ComparisonTableSectionData extends CmsSectionBase {
+  __component: "sections.comparison-table";
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  primaryColumnLabel: string;
+  secondaryColumnLabel: string;
+  rows?: CmsComparisonRow[];
+}
+
+export interface ImageGallerySectionData extends CmsSectionBase {
+  __component: "sections.image-gallery";
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  columns?: "2" | "3";
+  items?: CmsGalleryItem[];
+}
+
+export interface QuoteBlockSectionData extends CmsSectionBase {
+  __component: "sections.quote-block";
+  quote: string;
+  attribution?: string | null;
+  role?: string | null;
+  variant?: "editorial" | "testimonial";
+  isVerified?: boolean;
+}
+
+export interface TestimonialsSectionData extends CmsSectionBase {
+  __component: "sections.testimonials";
+  eyebrow?: string | null;
+  heading: string;
+  items?: CmsTestimonialItem[];
+}
+
+export interface LogoGridSectionData extends CmsSectionBase {
+  __component: "sections.logo-grid";
+  eyebrow?: string | null;
+  heading?: string | null;
+  items?: CmsLogoItem[];
+}
+
+export interface VideoEmbedSectionData extends CmsSectionBase {
+  __component: "sections.video-embed";
+  eyebrow?: string | null;
+  heading: string;
+  caption?: string | null;
+  embedUrl?: string | null;
+  videoFile?: CmsMedia | null;
+  posterImage?: CmsMedia | null;
+}
+
+export interface FormPlaceholderSectionData extends CmsSectionBase {
+  __component: "sections.form-placeholder";
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  formKind?: "contact" | "quote" | "consultation" | "assessment" | "newsletter";
+  targetRoute?: string | null;
+  ctaLabel?: string | null;
+}
+
+export interface TeamGridSectionData extends CmsSectionBase {
+  __component: "sections.team-grid";
+  eyebrow?: string | null;
+  heading: string;
+  intro?: string | null;
+  members?: CmsTeamMember[];
+}
+
+export type CmsPageSection =
+  | HeroSectionData
+  | SplitHeroSectionData
+  | ImageTextSectionData
+  | RichTextSectionData
+  | CardGridSectionData
+  | StatsSectionData
+  | CtaBannerSectionData
+  | ProcessStepsSectionData
+  | FaqAccordionSectionData
+  | TabsSectionData
+  | ComparisonTableSectionData
+  | ImageGallerySectionData
+  | QuoteBlockSectionData
+  | TestimonialsSectionData
+  | LogoGridSectionData
+  | VideoEmbedSectionData
+  | FormPlaceholderSectionData
+  | TeamGridSectionData;
+
 export interface CmsPage {
   id?: number;
   documentId?: string;
@@ -170,6 +477,7 @@ export interface CmsPage {
   showBreadcrumbs: boolean;
   isIndexable: boolean;
   seo: CmsSeo | null;
+  sections?: CmsPageSection[];
   updatedAt?: string;
   publishedAt?: string | null;
 }

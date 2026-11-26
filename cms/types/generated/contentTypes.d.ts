@@ -565,7 +565,7 @@ export interface ApiNavigationMenuNavigationMenu
 export interface ApiPagePage extends Struct.CollectionTypeSchema {
   collectionName: 'pages';
   info: {
-    description: 'Universal CMS-driven pages resolved by normalized full path';
+    description: 'Universal CMS-driven pages resolved by normalized full path with Dynamic Zone sections';
     displayName: 'Page';
     pluralName: 'pages';
     singularName: 'page';
@@ -602,6 +602,28 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
       Schema.Attribute.DefaultTo<'standard'>;
     parent: Schema.Attribute.Relation<'manyToOne', 'api::page.page'>;
     publishedAt: Schema.Attribute.DateTime;
+    sections: Schema.Attribute.DynamicZone<
+      [
+        'sections.hero',
+        'sections.split-hero',
+        'sections.image-text',
+        'sections.rich-text',
+        'sections.card-grid',
+        'sections.stats',
+        'sections.cta-banner',
+        'sections.process-steps',
+        'sections.faq-accordion',
+        'sections.tabs',
+        'sections.comparison-table',
+        'sections.image-gallery',
+        'sections.quote-block',
+        'sections.testimonials',
+        'sections.logo-grid',
+        'sections.video-embed',
+        'sections.form-placeholder',
+        'sections.team-grid',
+      ]
+    >;
     seo: Schema.Attribute.Component<'shared.seo', false>;
     showBreadcrumbs: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<true>;

@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_shared_comparison_rows",
+  "info": {
+    "displayName": "Comparison Row",
+    "icon": "grid"
+  },
+  "options": {},
+  "attributes": {
+    "feature": { "type": "string", "required": true },
+    "primaryValue": { "type": "string", "required": true },
+    "secondaryValue": { "type": "string", "required": true },
+    "highlight": { "type": "boolean", "default": false },
+    "order": { "type": "integer", "default": 0 }
+  }
+}

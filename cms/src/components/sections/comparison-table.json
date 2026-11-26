@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_sections_comparison_tables",
+  "info": { "displayName": "Comparison Table", "icon": "grid" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "intro": { "type": "text" },
+    "primaryColumnLabel": { "type": "string", "required": true },
+    "secondaryColumnLabel": { "type": "string", "required": true },
+    "rows": { "type": "component", "repeatable": true, "component": "shared.comparison-row" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "ivory" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

@@ -5,7 +5,7 @@
     "singularName": "page",
     "pluralName": "pages",
     "displayName": "Page",
-    "description": "Universal CMS-driven pages resolved by normalized full path"
+    "description": "Universal CMS-driven pages resolved by normalized full path with Dynamic Zone sections"
   },
   "options": {
     "draftAndPublish": true
@@ -64,6 +64,29 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.seo"
+    },
+    "sections": {
+      "type": "dynamiczone",
+      "components": [
+        "sections.hero",
+        "sections.split-hero",
+        "sections.image-text",
+        "sections.rich-text",
+        "sections.card-grid",
+        "sections.stats",
+        "sections.cta-banner",
+        "sections.process-steps",
+        "sections.faq-accordion",
+        "sections.tabs",
+        "sections.comparison-table",
+        "sections.image-gallery",
+        "sections.quote-block",
+        "sections.testimonials",
+        "sections.logo-grid",
+        "sections.video-embed",
+        "sections.form-placeholder",
+        "sections.team-grid"
+      ]
     }
   }
 }

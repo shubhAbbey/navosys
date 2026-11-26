@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_sections_image_texts",
+  "info": { "displayName": "Image & Text", "icon": "picture" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "body": { "type": "text", "required": true },
+    "media": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "mediaAlt": { "type": "string" },
+    "mediaPosition": { "type": "enumeration", "enum": ["left", "right"], "default": "right" },
+    "cta": { "type": "component", "repeatable": false, "component": "shared.cta" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "sand" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

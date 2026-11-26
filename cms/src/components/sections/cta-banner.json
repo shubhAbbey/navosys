@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_sections_cta_banners",
+  "info": { "displayName": "CTA Banner", "icon": "cursor" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "body": { "type": "text" },
+    "variant": { "type": "enumeration", "enum": ["banner", "footer_cta"], "default": "banner" },
+    "primaryCta": { "type": "component", "repeatable": false, "component": "shared.cta" },
+    "secondaryCta": { "type": "component", "repeatable": false, "component": "shared.cta" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "navy" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

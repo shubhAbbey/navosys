@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sections_faq_accordions",
+  "info": { "displayName": "FAQ Accordion", "icon": "question" },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "intro": { "type": "text" },
+    "allowMultiple": { "type": "boolean", "default": false },
+    "items": { "type": "component", "repeatable": true, "component": "shared.faq-item" },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "ivory" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "default" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}

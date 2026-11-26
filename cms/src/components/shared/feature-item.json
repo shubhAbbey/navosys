@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_shared_feature_items",
+  "info": {
+    "displayName": "Feature Item",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" },
+    "badge": { "type": "string" },
+    "href": { "type": "string" },
+    "ctaLabel": { "type": "string" },
+    "order": { "type": "integer", "default": 0 }
+  }
+}

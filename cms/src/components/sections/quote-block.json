@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sections_quote_blocks",
+  "info": { "displayName": "Quote Block", "icon": "quote" },
+  "options": {},
+  "attributes": {
+    "quote": { "type": "text", "required": true },
+    "attribution": { "type": "string" },
+    "role": { "type": "string" },
+    "variant": { "type": "enumeration", "enum": ["editorial", "testimonial"], "default": "editorial" },
+    "isVerified": { "type": "boolean", "default": true },
+    "anchorId": { "type": "string" },
+    "surface": { "type": "enumeration", "enum": ["ivory", "sand", "navy"], "default": "sand" },
+    "spacing": { "type": "enumeration", "enum": ["compact", "default", "spacious"], "default": "compact" },
+    "isVisible": { "type": "boolean", "default": true },
+    "sortOrder": { "type": "integer", "default": 0 }
+  }
+}
